@@ -4,7 +4,7 @@
 
 %define		modname solr
 Summary:	Object oriented API to Apache Solr
-Summary(fr):	API orientée objet pour Apache Solr
+Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		php-pecl-solr
 Version:	0.9.11
 Release:	1
@@ -43,7 +43,7 @@ for connecting to Solr servers secured behind HTTP Authentication or
 HTTP proxy servers. It is also able to connect to SSL-enabled
 containers.
 
-%description -l fr
+%description -l fr.UTF-8
 Bibliothèque riche en fonctionnalités qui permet aux développeurs PHP
 de communiquer facilement et efficacement avec des instances du
 serveur Apache Solr en utilisant une API orientée objet.
