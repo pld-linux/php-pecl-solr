@@ -18,6 +18,10 @@ away from srand() or mt_srand() and to never ever use rand() or mt_rand() for
 cryptographic secrets:
 http://www.suspekt.org/2008/08/17/mt_srand-and-not-so-random-numbers/
 
+Bugreport: https://bugs.php.net/bug.php?id=62835
+Source: http://cvs.pld-linux.org/packages/php-pecl-solr/do-not-screw-with-random-seed.patch
+Signed-Off-By: Elan Ruusamäe <glen@pld-linux.org>
+Tested-By: Elan Ruusamäe <glen@delfi.ee>
 --- php-pecl-solr-1.0.2/php_solr.c~	2011-11-29 04:50:07.000000000 +0200
 +++ php-pecl-solr-1.0.2/php_solr.c	2012-07-06 18:15:25.730180032 +0300
 @@ -1082,9 +1082,6 @@
