@@ -2,26 +2,27 @@
 # Conditional build:
 %bcond_without	tests		# build without tests
 
+%define		php_name	php%{?php_suffix}
 %define		modname solr
 Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
-Name:		php-pecl-solr
+Name:		%{php_name}-pecl-solr
 Version:	1.0.2
 Release:	3
 License:	PHP
 Group:		Development/Languages
-URL:		http://pecl.php.net/package/solr
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	1632144b462ab22b91d03e4d59704fab
 Patch0:		do-not-screw-with-random-seed.patch
+URL:		http://pecl.php.net/package/solr
+%{?with_tests:BuildRequires:	%{php_name}-curl}
+BuildRequires:	%{php_name}-devel >= 4:5.2.3
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
-%{?with_tests:BuildRequires:	php-curl}
-BuildRequires:	php-devel >= 4:5.2.3
 BuildRequires:	php-packagexml2cl
-BuildRequires:	rpmbuild(macros) >= 1.519
-Requires:	php-xml
-Provides:	php-solr = %{version}
+BuildRequires:	rpmbuild(macros) >= 1.650
+Requires:	%{php_name}-xml
+Provides:	php(solr) = %{version}
 %{?requires_php_extension}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,7 +83,7 @@ phpize
 
 %if %{with tests}
 ln -sf %{php_extensiondir}/curl.so modules
-%{_bindir}/php \
+%{__php} \
 	-n -q -d extension_dir=modules \
 	-d extension=curl.so \
 	-d extension=%{modname}.so \
