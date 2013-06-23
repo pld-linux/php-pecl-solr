@@ -20,7 +20,7 @@ BuildRequires:	%{php_name}-devel >= 4:5.2.3
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
-BuildRequires:	rpmbuild(macros) >= 1.650
+BuildRequires:	rpmbuild(macros) >= 1.666
 Requires:	%{php_name}-xml
 Provides:	php(solr) = %{version}
 %{?requires_php_extension}
@@ -83,12 +83,13 @@ phpize
 
 %if %{with tests}
 ln -sf %{php_extensiondir}/curl.so modules
-%{__php} \
-	-n -q -d extension_dir=modules \
+%{__php} -n -q \
+	-d extension_dir=modules \
 	-d extension=curl.so \
 	-d extension=%{modname}.so \
-	--modules | grep %{modname}
-rm -f modules/curl.so
+	-m > modules.log
+grep %{modname} modules.log
+%{__rm} modules/curl.so
 %endif
 
 %install
