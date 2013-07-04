@@ -21,6 +21,7 @@ BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
 BuildRequires:	rpmbuild(macros) >= 1.666
+Requires:	%{php_name}-cli
 Requires:	%{php_name}-xml
 Provides:	php(solr) = %{version}
 %{?requires_php_extension}
