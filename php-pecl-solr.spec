@@ -78,8 +78,18 @@ find -newer TODO -o -print | xargs touch --reference %{SOURCE0}
 
 %patch0 -p1
 
+# Fix version
+sed -i -e '/PHP_SOLR_DOTTED_VERSION/s/1.0.1/1.0.2/' php_solr_version.h
+
 %build
 packagexml2cl package.xml > ChangeLog
+
+# Check version
+extver=$(sed -n '/#define PHP_SOLR_DOTTED_VERSION/{s/.* "//;s/".*$//;p}' php_solr_version.h)
+if test "x${extver}" != "x%{version}"; then
+	: Error: Upstream version is ${extver}, expecting %{version}.
+	exit 1
+fi
 
 phpize
 %configure
