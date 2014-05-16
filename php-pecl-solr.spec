@@ -18,6 +18,7 @@ URL:		http://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-cli
 %{?with_tests:BuildRequires:	%{php_name}-curl}
 BuildRequires:	%{php_name}-devel >= 4:5.2.3
+BuildRequires:	%{php_name}-xml
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
