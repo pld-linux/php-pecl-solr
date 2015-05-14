@@ -14,16 +14,20 @@ Group:		Development/Languages
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	258865d4517312afda6890827f18f93f
 URL:		http://pecl.php.net/package/solr
-BuildRequires:	%{php_name}-cli
-%{?with_tests:BuildRequires:	%{php_name}-curl}
 BuildRequires:	%{php_name}-devel >= 4:5.2.3
-BuildRequires:	%{php_name}-xml
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
 BuildRequires:	rpmbuild(macros) >= 1.666
+%if %{with tests}
+BuildRequires:	%{php_name}-cli
+BuildRequires:	%{php_name}-curl
+BuildRequires:	%{php_name}-json
+BuildRequires:	%{php_name}-xml
+%endif
 %{?requires_php_extension}
 Requires:	%{php_name}-cli
+Requires:	%{php_name}-json
 Requires:	%{php_name}-xml
 Provides:	php(solr) = %{version}
 Obsoletes:	php-pecl-solr < 1.0.2-6
@@ -89,14 +93,13 @@ phpize
 %{__make}
 
 %if %{with tests}
-ln -sf %{php_extensiondir}/curl.so modules
 %{__php} -n -q \
 	-d extension_dir=modules \
-	-d extension=curl.so \
+	-d extension=%{php_extensiondir}/curl.so \
+	-d extension=%{php_extensiondir}/json.so \
 	-d extension=%{modname}.so \
 	-m > modules.log
 grep %{modname} modules.log
-%{__rm} modules/curl.so
 %endif
 
 %install
