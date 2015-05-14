@@ -7,13 +7,12 @@
 Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		%{php_name}-pecl-solr
-Version:	1.0.2
-Release:	7
-License:	PHP
+Version:	2.1.0
+Release:	1
+License:	PHP v3.01
 Group:		Development/Languages
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
-# Source0-md5:	1632144b462ab22b91d03e4d59704fab
-Patch0:		do-not-screw-with-random-seed.patch
+# Source0-md5:	258865d4517312afda6890827f18f93f
 URL:		http://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-cli
 %{?with_tests:BuildRequires:	%{php_name}-curl}
@@ -49,6 +48,8 @@ for connecting to Solr servers secured behind HTTP Authentication or
 HTTP proxy servers. It is also able to connect to SSL-enabled
 containers.
 
+Notice: PECL Solr 2.x is not compatible with Apache Solr Server 3.x
+
 %description -l fr.UTF-8
 Bibliothèque riche en fonctionnalités qui permet aux développeurs PHP
 de communiquer facilement et efficacement avec des instances du
@@ -70,22 +71,14 @@ authentification HTTP ou par un serveur mandataire. Il est également
 possible de se connecter à des serveurs via SSL.
 
 %prep
-%setup -q -c
+%setup -qc
 mv %{modname}-%{version}/* .
-
-# avoid 1970 dates in doc
-find -newer TODO -o -print | xargs touch --reference %{SOURCE0}
-
-%patch0 -p1
-
-# Fix version
-sed -i -e '/PHP_SOLR_DOTTED_VERSION/s/1.0.1/1.0.2/' php_solr_version.h
 
 %build
 packagexml2cl package.xml > ChangeLog
 
 # Check version
-extver=$(sed -n '/#define PHP_SOLR_DOTTED_VERSION/{s/.* "//;s/".*$//;p}' php_solr_version.h)
+extver=$(awk -F'"' '/define PHP_SOLR_VERSION / {print $2}' php_solr_version.h)
 if test "x${extver}" != "x%{version}"; then
 	: Error: Upstream version is ${extver}, expecting %{version}.
 	exit 1
@@ -112,6 +105,7 @@ install -d $RPM_BUILD_ROOT{%{php_sysconfdir}/conf.d,%{php_extensiondir}}
 %{__make} install \
 	EXTENSION_DIR=%{php_extensiondir} \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/%{modname}.ini
 ; Enable Solr extension module
 extension=%{modname}.so
