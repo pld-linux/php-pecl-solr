@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
+%bcond_with	network_tests	# run tests requiring setup Solr Server on localhost:8983
 
 %define		php_name	php%{?php_suffix}
 %define		modname solr
@@ -13,7 +14,7 @@ License:	PHP v3.01
 Group:		Development/Languages
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	258865d4517312afda6890827f18f93f
-Patch0:		tests.patch
+Patch0:		tests-online.patch
 URL:		http://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-devel >= 4:5.2.3
 BuildRequires:	curl-devel
@@ -78,7 +79,7 @@ possible de se connecter à des serveurs via SSL.
 %prep
 %setup -qc
 mv %{modname}-%{version}/* .
-%patch0 -p1
+%{!?with_network_tests:%patch0 -p1}
 
 %build
 packagexml2cl package.xml > ChangeLog
