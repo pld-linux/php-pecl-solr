@@ -13,6 +13,7 @@ License:	PHP v3.01
 Group:		Development/Languages
 Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	258865d4517312afda6890827f18f93f
+Patch0:		tests.patch
 URL:		http://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-devel >= 4:5.2.3
 BuildRequires:	curl-devel
@@ -77,6 +78,7 @@ possible de se connecter à des serveurs via SSL.
 %prep
 %setup -qc
 mv %{modname}-%{version}/* .
+%patch0 -p1
 
 %build
 packagexml2cl package.xml > ChangeLog
@@ -100,6 +102,11 @@ phpize
 	-d extension=%{modname}.so \
 	-m > modules.log
 grep %{modname} modules.log
+
+export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
+%{__make} test \
+	PHP_EXECUTABLE=%{__php} \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json" \
 %endif
 
 %install

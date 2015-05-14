@@ -1,0 +1,10 @@
+--- php55-pecl-solr-2.1.0/tests/test.config.inc~	2015-01-17 17:40:05.000000000 +0200
++++ php55-pecl-solr-2.1.0/tests/test.config.inc	2015-05-14 16:13:44.177230625 +0300
+@@ -1,6 +1,6 @@
+ <?php
+ 
+-define('SOLR_SERVER_CONFIGURED', true);
++define('SOLR_SERVER_CONFIGURED', !!getenv("SOLR_SERVER_CONFIGURED"));
+ 
+ define('ROOT_DIRECTORY', dirname(__FILE__));
+ 
