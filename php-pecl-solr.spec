@@ -117,6 +117,14 @@ EOF
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+%php_webserver_restart
+
+%postun
+if [ "$1" = 0 ]; then
+	%php_webserver_restart
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog CREDITS README.SUBMITTING_CONTRIBUTIONS README.MEMORY_ALLOCATION
