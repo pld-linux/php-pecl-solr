@@ -25,11 +25,13 @@ BuildRequires:	rpmbuild(macros) >= 1.666
 %if %{with tests}
 BuildRequires:	%{php_name}-curl
 BuildRequires:	%{php_name}-json
+BuildRequires:	%{php_name}-pcre
 BuildRequires:	%{php_name}-xml
 %endif
 %{?requires_php_extension}
 Requires:	%{php_name}-cli
 Requires:	%{php_name}-json
+Requires:	%{php_name}-pcre
 Requires:	%{php_name}-xml
 Provides:	php(solr) = %{version}
 Obsoletes:	php-pecl-solr < 1.0.2-6
@@ -86,7 +88,7 @@ cat <<'EOF' > run-tests.sh
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
 exec %{__make} test \
 	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json" \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json pcre" \
 	RUN_TESTS_SETTINGS="-q $*"
 EOF
 chmod +x run-tests.sh
