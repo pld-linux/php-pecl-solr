@@ -12,11 +12,11 @@ Version:	2.1.0
 Release:	1
 License:	PHP v3.01
 Group:		Development/Languages
-Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
+Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	258865d4517312afda6890827f18f93f
 Patch0:		tests-online.patch
-URL:		http://pecl.php.net/package/solr
-BuildRequires:	%{php_name}-devel >= 4:5.2.3
+URL:		https://pecl.php.net/package/solr
+BuildRequires:	%{php_name}-devel >= 4:5.3.0
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
@@ -79,7 +79,7 @@ possible de se connecter à des serveurs via SSL.
 %prep
 %setup -qc
 mv %{modname}-%{version}/* .
-%{!?with_network_tests:%patch0 -p1}
+#%{!?with_network_tests:%patch0 -p1}
 
 %build
 packagexml2cl package.xml > ChangeLog
