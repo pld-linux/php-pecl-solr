@@ -16,13 +16,13 @@ Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	2c9accf66681a3daaaf371bc07e44902
 Patch0:		tests-online.patch
 URL:		https://pecl.php.net/package/solr
+BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-devel >= 4:5.3.0
 BuildRequires:	curl-devel
 BuildRequires:	libxml2-devel >= 1:2.6.16
 BuildRequires:	php-packagexml2cl
 BuildRequires:	rpmbuild(macros) >= 1.666
 %if %{with tests}
-BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-curl
 BuildRequires:	%{php_name}-json
 BuildRequires:	%{php_name}-xml
@@ -81,6 +81,16 @@ possible de se connecter à des serveurs via SSL.
 mv %{modname}-%{version}/* .
 %{!?with_network_tests:%patch0 -p1}
 
+cat <<'EOF' > run-tests.sh
+#!/bin/sh
+export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
+exec %{__make} test \
+	PHP_EXECUTABLE=%{__php} \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json" \
+	RUN_TESTS_SETTINGS="-q $*"
+EOF
+chmod +x run-tests.sh
+
 %build
 packagexml2cl package.xml > ChangeLog
 
@@ -95,7 +105,6 @@ phpize
 %configure
 %{__make}
 
-%if %{with tests}
 %{__php} -n -q \
 	-d extension_dir=modules \
 	-d extension=%{php_extensiondir}/curl.so \
@@ -104,10 +113,8 @@ phpize
 	-m > modules.log
 grep %{modname} modules.log
 
-export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
-%{__make} test \
-	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json" \
+%if %{with tests}
+./run-tests.sh --show-diff
 %endif
 
 %install
