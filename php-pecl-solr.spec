@@ -8,12 +8,12 @@
 Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		%{php_name}-pecl-solr
-Version:	2.1.0
+Version:	2.4.0
 Release:	1
 License:	PHP v3.01
 Group:		Development/Languages
 Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
-# Source0-md5:	258865d4517312afda6890827f18f93f
+# Source0-md5:	2c9accf66681a3daaaf371bc07e44902
 Patch0:		tests-online.patch
 URL:		https://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-devel >= 4:5.3.0
@@ -79,13 +79,13 @@ possible de se connecter à des serveurs via SSL.
 %prep
 %setup -qc
 mv %{modname}-%{version}/* .
-#%{!?with_network_tests:%patch0 -p1}
+%{!?with_network_tests:%patch0 -p1}
 
 %build
 packagexml2cl package.xml > ChangeLog
 
 # Check version
-extver=$(awk -F'"' '/define PHP_SOLR_VERSION / {print $2}' php_solr_version.h)
+extver=$(awk -F'"' '/define PHP_SOLR_VERSION / {print $2}' src/php%{php_major_version}/php_solr_version.h)
 if test "x${extver}" != "x%{version}"; then
 	: Error: Upstream version is ${extver}, expecting %{version}.
 	exit 1
