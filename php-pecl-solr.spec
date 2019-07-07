@@ -8,15 +8,14 @@
 Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		%{php_name}-pecl-solr
-Version:	2.4.0
-Release:	3
+Version:	2.5.0
+Release:	1
 License:	PHP v3.01
 Group:		Development/Languages
 Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
-# Source0-md5:	2c9accf66681a3daaaf371bc07e44902
+# Source0-md5:	5034f5d274e2c80b8ac63f601d0beb01
 Patch0:		tests-online.patch
 Patch2:		https://github.com/php/pecl-search_engine-solr/commit/744e32915d5989101267ed2c84a407c582dc6f31.patch
-# Patch2-md5:	3536677810c1123e4be00a9da56cff5a
 URL:		https://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-curl
@@ -84,7 +83,6 @@ possible de se connecter à des serveurs via SSL.
 %setup -qc
 mv %{modname}-%{version}/* .
 %{!?with_network_tests:%patch0 -p1}
-%patch2 -p1
 
 cat <<'EOF' > run-tests.sh
 #!/bin/sh
