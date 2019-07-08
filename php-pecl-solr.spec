@@ -15,7 +15,6 @@ Group:		Development/Languages
 Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
 # Source0-md5:	5034f5d274e2c80b8ac63f601d0beb01
 Patch0:		tests-online.patch
-Patch2:		https://github.com/php/pecl-search_engine-solr/commit/744e32915d5989101267ed2c84a407c582dc6f31.patch
 URL:		https://pecl.php.net/package/solr
 BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-curl
