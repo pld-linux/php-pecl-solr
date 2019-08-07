@@ -9,7 +9,7 @@ Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		%{php_name}-pecl-solr
 Version:	2.5.0
-Release:	1
+Release:	2
 License:	PHP v3.01
 Group:		Development/Languages
 Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
@@ -88,7 +88,11 @@ cat <<'EOF' > run-tests.sh
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
 exec %{__make} test \
 	PHP_EXECUTABLE=%{__php} \
+%if "%php_major_version.%php_minor_version" >= "7.4"
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json" \
+%else
 	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="json pcre" \
+%endif
 	RUN_TESTS_SETTINGS="-q $*"
 EOF
 chmod +x run-tests.sh
