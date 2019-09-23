@@ -9,7 +9,7 @@ Summary:	Object oriented API to Apache Solr
 Summary(fr.UTF-8):	API orientée objet pour Apache Solr
 Name:		%{php_name}-pecl-solr
 Version:	2.5.0
-Release:	2
+Release:	3
 License:	PHP v3.01
 Group:		Development/Languages
 Source0:	https://pecl.php.net/get/%{modname}-%{version}.tgz
